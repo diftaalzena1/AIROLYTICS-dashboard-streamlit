@@ -1,0 +1,9 @@
+streamlit
+pillow
+pandas
+numpy
+plotly
+folium
+streamlit-folium
+rapidfuzz
+joblib
