@@ -8,28 +8,35 @@ from tabs import tab1, tab2, tab3
 # ==============================
 # Config halaman
 # ==============================
-st.set_page_config(page_title="AIROLYTICS: Hybrid Machine Learning untuk Prediksi & Analisis Kualitas Udara Indonesia", layout="wide")
+st.set_page_config(
+    page_title="AIROLYTICS: Hybrid Machine Learning untuk Prediksi & Analisis Kualitas Udara Indonesia",
+    layout="wide"
+)
 
 # ==============================
 # Tambah CSS custom
 # ==============================
 st.markdown("""
 <style>
+/* Ubah background header bawaan Streamlit */
+[data-testid="stHeader"] {
+    background: linear-gradient(to right, #E2CEB1, #FDFCE8);
+}
+
 /* Kurangi jarak kiri agar lebih dekat ke sidebar */
-.block-container {  /* Container utama */
+.block-container {
     padding-left: 3rem !important;
     padding-right: 3rem !important;
 }
 
-/* Jarak antar tab atas halaman */
+/* Styling untuk tab navigasi */
 button[role="tab"] {
-    margin-right: 1.5rem;  /* sesuaikan sesuai selera */
-    font-size: 18px;       /* ubah ukuran font tab */
-    font-weight: 10000;    /* lebih tebal */
+    margin-right: 1.5rem;
+    font-size: 18px;
+    font-weight: 1000;  /* tebal */
 }
 </style>
 """, unsafe_allow_html=True)
-
 
 # --- Tampilkan sidebar di semua tab ---
 show_sidebar()
@@ -40,7 +47,8 @@ show_sidebar()
 tabs = st.tabs([
     "Tentang Proyek",
     "Demo Prediksi Interaktif",
-    "Evaluasi & Visualisasi"])
+    "Evaluasi & Visualisasi"
+])
 
 # ----- Tab 1 -----
 with tabs[0]:
