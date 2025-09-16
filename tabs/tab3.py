@@ -151,30 +151,30 @@ def show_tab():
     st_folium(m, width=None, height=500)
 
     st.markdown("""
-    <div style="margin-top:10px; padding:10px; background-color:#8B5E3C; 
-                color:white; border-radius:10px; font-size:14px;">
-        🌍 <b>Wilayah timur (Papua & Maluku)</b> → tampil paling gelap, menandakan kualitas udara relatif lebih baik.
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div style="margin-top:10px; padding:10px; background-color:#8B5E3C; 
-                color:white; border-radius:10px; font-size:14px;">
-        🏭 <b>Wilayah barat (Jawa & sebagian Sumatra)</b> → cenderung lebih terang, konsisten dengan dampak urbanisasi dan aktivitas industri yang padat.
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div style="margin-top:10px; padding:10px; background-color:#A47551; 
-                color:white; border-radius:10px; font-size:14px;">
-        🌳 <b>Wilayah tengah (Kalimantan & sebagian Sulawesi)</b> → relatif baik, dengan dominasi warna gelap tanpa area terang mencolok.  
-    </div>
+        <style>
+            .no-white-block {
+                background: linear-gradient(135deg, #8B5E3C, #A47551);
+                color: white;
+                border-radius: 12px;
+                font-size: 14px;
+                padding: 12px;
+                margin-top: 10px;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+                text-align: justify;
+            }
+        </style>
+        <div class="no-white-block">
+            🌍 <b>Wilayah timur (Papua & Maluku)</b> → tampil paling gelap, menandakan kualitas udara relatif lebih baik.<br>
+            🏭<b>Wilayah barat (Jawa & sebagian Sumatra)</b> → cenderung lebih terang, konsisten dengan dampak urbanisasi dan aktivitas industri yang padat.<br>
+            🌳<b>Wilayah tengah (Kalimantan & sebagian Sulawesi)</b> → relatif baik, dengan dominasi warna gelap tanpa area terang mencolok.
+        </div>
     """, unsafe_allow_html=True)
 
     # Insight utama setelah peta
     st.markdown("""
-    <div style="margin-top:20px; padding:12px; background-color:#f0f0f0; 
+    <div style="margin-top:12px; padding:12px; background-color:#f0f0f0; 
                 color:#333; border-radius:10px; font-size:14px; 
-                box-shadow: 0 0 5px rgba(0,0,0,0.05);">
+                box-shadow: 0 0 5px rgba(0,0,0,0.05); text-align: justify;">
         ✨ <b>Insight utama:</b> terdapat perbedaan spasial yang jelas — 
         <b>timur unggul</b>, <b>barat tertekan urbanisasi</b>, sementara 
         <b>tengah berada pada posisi menengah</b>. Temuan ini penting untuk merancang strategi kebijakan yang lebih terarah per wilayah.
@@ -213,11 +213,6 @@ def show_tab():
         fig_top.update_layout(yaxis={'categoryorder': 'total ascending', 'autorange': "reversed"},
                               plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", showlegend=False, margin=dict(t=20, l=10, r=10, b=10), height=400)
         st.plotly_chart(fig_top, use_container_width=True)
-    st.markdown("""
-    <div style="margin-top:15px; padding:10px; background-color:#6B4226; 
-                color:white; border-radius:10px; font-size:14px;">
-        🏅 <b>Papua Barat & Papua</b> menempati posisi tertinggi (≥94%), diikuti Kalimantan Utara, Gorontalo, dan Maluku Utara (>91%) → menunjukkan bahwa daerah-daerah dengan tekanan urbanisasi rendah masih mampu menjaga kualitas udara.
-    """, unsafe_allow_html=True)
 
     # Bottom 5
     with col_bottom:
@@ -236,23 +231,37 @@ def show_tab():
         fig_bottom.update_layout(yaxis={'categoryorder': 'total ascending'},
                                  plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", showlegend=False, margin=dict(t=20, l=10, r=10, b=10), height=400)
         st.plotly_chart(fig_bottom, use_container_width=True)
+
     st.markdown("""
-    <div style="margin-top:15px; padding:10px; background-color:#8B5E3C; 
-                color:white; border-radius:10px; font-size:14px;">
-        ⚠️ <b>DKI Jakarta, Banten, dan tiga provinsi besar di Jawa</b> justru ada di posisi terbawah (<84%) → memperlihatkan tantangan serius akibat konsentrasi penduduk dan aktivitas ekonomi intensif.
-    </div>
+        <style>
+            .no-white-block {
+                background: linear-gradient(135deg, #8B5E3C, #A47551);
+                color: white;
+                border-radius: 12px;
+                font-size: 14px;
+                padding: 12px;
+                margin-top: 10px;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+                text-align: justify;
+            }
+        </style>
+        <div class="no-white-block">
+            🏅 <b>Papua Barat & Papua</b> menempati posisi tertinggi (≥94%), diikuti Kalimantan Utara, Gorontalo, dan Maluku Utara (>91%) → menunjukkan bahwa daerah-daerah dengan tekanan urbanisasi rendah masih mampu menjaga kualitas udara.<br>
+            ⚠️ <b>DKI Jakarta, Banten, dan tiga provinsi besar di Jawa</b> justru ada di posisi terbawah (<84%) → memperlihatkan tantangan serius akibat konsentrasi penduduk dan aktivitas ekonomi intensif.
+        </div>
     """, unsafe_allow_html=True)
 
-    # Insight utama setelah ttop/bottom
+    # Insight utama setelah top/bottom
     st.markdown("""
-    <div style="margin-top:20px; padding:12px; background-color:#f0f0f0; 
+    <div style="margin-top:12px; padding:12px; background-color:#f0f0f0; 
                 color:#333; border-radius:10px; font-size:14px; 
-                box-shadow: 0 0 5px rgba(0,0,0,0.05);">
+                box-shadow: 0 0 5px rgba(0,0,0,0.05); text-align: justify;">
         ✨ <b>Insight utama:</b> Grafik ini menyoroti <b>gap kualitas udara antarprovinsi</b>, yakni wilayah timur & sebagian tengah unggul dalam peringkat tertinggi, sementara provinsi padat di Jawa konsisten tertekan di posisi terbawah. Perbandingan ini menekankan pentingnya kebijakan diferensial, tidak hanya berbasis wilayah besar (timur–barat–tengah), tetapi juga berbasis <b>provinsi prioritas</b>.
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
+
     # ---------------------------------
     # Analisis Faktor vs IKU (Scatter)
     # ---------------------------------
@@ -267,72 +276,78 @@ def show_tab():
         "Kendaraan_Bermotor": "Jumlah Kendaraan Bermotor (unit)",
         "Rumah_Tangga_Listrik_PLN_(%)": "Persentase Rumah Tangga Listrik PLN (%)"
     }
-    color_map_scatter = {
-        "Sangat Baik": "#804000",
-        "Baik": "#A67845",
-        "Sedang": "#A1887F",
-        "Kurang": "#D7CCC8",
-        "Sangat Kurang": "#E2CEB5"
-    }
+
     faktor_list = list(features_fullname.keys())
     for i in range(0, len(faktor_list), 2):
         col1, col2 = st.columns(2)
         with col1:
             faktor = faktor_list[i]
             st.markdown(f"**{features_fullname[faktor]} vs IKU Prediksi**")
-            fig1 = px.scatter(df_hot, x=faktor, y="Prediksi_IKU", color="Kategori",
-                              color_discrete_map=color_map_scatter, hover_name="Provinsi",
-                              labels={faktor: features_fullname[faktor], "Prediksi_IKU": "IKU Prediksi"},
-                              size_max=15)
-            fig1.update_traces(marker=dict(size=14, line=dict(width=0.5, color='black')))
+            fig1 = px.scatter(
+                df_hot, 
+                x=faktor, 
+                y="Prediksi_IKU",
+                hover_name="Provinsi",
+                labels={faktor: features_fullname[faktor], "Prediksi_IKU": "IKU Prediksi"},
+                size_max=15
+            )
+            fig1.update_traces(
+                marker=dict(
+                    color="#A67845",  
+                    size=14,
+                    line=dict(width=0.5, color='black')
+                )
+            )
             fig1.update_layout(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", height=400)
             st.plotly_chart(fig1, use_container_width=True)
-            
+
         if i + 1 < len(faktor_list):
             faktor2 = faktor_list[i+1]
             with col2:
                 st.markdown(f"**{features_fullname[faktor2]} vs IKU Prediksi**")
-                fig2 = px.scatter(df_hot, x=faktor2, y="Prediksi_IKU", color="Kategori",
-                                  color_discrete_map=color_map_scatter, hover_name="Provinsi",
-                                  labels={faktor2: features_fullname[faktor2], "Prediksi_IKU": "IKU Prediksi"},
-                                  size_max=15)
-                fig2.update_traces(marker=dict(size=14, line=dict(width=0.5, color='black')))
+                fig2 = px.scatter(
+                    df_hot, 
+                    x=faktor2, 
+                    y="Prediksi_IKU",
+                    hover_name="Provinsi",
+                    labels={faktor2: features_fullname[faktor2], "Prediksi_IKU": "IKU Prediksi"},
+                    size_max=15
+                )
+                fig2.update_traces(
+                    marker=dict(
+                        color="#A67845",  # <- 1 warna
+                        size=14,
+                        line=dict(width=0.5, color='black')
+                    )
+                )
                 fig2.update_layout(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", height=400)
                 st.plotly_chart(fig2, use_container_width=True)
 
     st.markdown("""
-    <div style="margin-top:15px; padding:10px; background-color:#6B4226; 
-                color:white; border-radius:10px; font-size:14px;">
-        🌳 <b>Indeks Kualitas Tutupan Lahan (%) →</b> pola positif: provinsi dengan tutupan lahan tinggi cenderung memiliki kualitas udara lebih baik. Vegetasi berperan penting sebagai penyerap polusi.
-    </div>
+        <style>
+            .no-white-block {
+                background: linear-gradient(135deg, #8B5E3C, #A47551);
+                color: white;
+                border-radius: 12px;
+                font-size: 14px;
+                padding: 12px;
+                margin-top: 10px;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+                text-align: justify;
+            }
+        </style>
+        <div class="no-white-block">
+            🌳 <b>Indeks Kualitas Tutupan Lahan (%) →</b> pola positif: provinsi dengan tutupan lahan tinggi cenderung memiliki kualitas udara lebih baik. Vegetasi berperan penting sebagai penyerap polusi.<br>
+            🔥 <b>Luas Kebakaran Hutan dan Lahan (ha) →</b> meski tidak linier, titik ekstrem dengan area terbakar luas terlihat menekan kualitas udara. Karhutla menjadi faktor episodik dengan dampak signifikan saat terjadi.<br>
+            🚗 <b>Jumlah Kendaraan Bermotor (unit) →</b> tren negatif jelas: semakin banyak kendaraan, kualitas udara menurun. Konsisten dengan fakta bahwa transportasi adalah sumber emisi terbesar di kota besar.<br>
+            ⚡ <b>Persentase Rumah Tangga Listrik PLN (%) →</b> mayoritas provinsi sudah di atas 90%. Variabel ini lebih merefleksikan infrastruktur energi dan pola konsumsi, yang secara tidak langsung berkaitan dengan emisi.
     """, unsafe_allow_html=True)
 
+    # Insight utama setelah scatter plot
     st.markdown("""
-    <div style="margin-top:10px; padding:10px; background-color:#8B5E3C; 
-                color:white; border-radius:10px; font-size:14px;">
-        🔥 <b>Luas Kebakaran Hutan dan Lahan (ha) →</b> meski tidak linier, titik ekstrem dengan area terbakar luas terlihat menekan kualitas udara. Karhutla menjadi faktor episodik dengan dampak signifikan saat terjadi.
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div style="margin-top:10px; padding:10px; background-color:#A47551; 
-                color:white; border-radius:10px; font-size:14px;">
-        🚗 <b>Jumlah Kendaraan Bermotor (unit) →</b> tren negatif jelas: semakin banyak kendaraan, kualitas udara menurun. Konsisten dengan fakta bahwa transportasi adalah sumber emisi terbesar di kota besar.
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div style="margin-top:10px; padding:10px; background-color:#C19A6B; 
-                color:white; border-radius:10px; font-size:14px;">
-        ⚡ <b>Persentase Rumah Tangga Listrik PLN (%) →</b> mayoritas provinsi sudah di atas 90%. Variabel ini lebih merefleksikan infrastruktur energi dan pola konsumsi, yang secara tidak langsung berkaitan dengan emisi.
-    </div>
-    """, unsafe_allow_html=True)
-
-        # Insight utama setelah scatter plot
-    st.markdown("""
-    <div style="margin-top:20px; padding:12px; background-color:#f0f0f0; 
+    <div style="margin-top:12px; padding:12px; background-color:#f0f0f0; 
                 color:#333; border-radius:10px; font-size:14px; 
-                box-shadow: 0 0 5px rgba(0,0,0,0.05);">
+                box-shadow: 0 0 5px rgba(0,0,0,0.05); text-align: justify;">
         ✨ <b>Insight utama:</b> Scatter plot menegaskan bahwa <b>kendaraan bermotor</b> dan <b>tutupan lahan</b> paling berpengaruh terhadap kualitas udara. 
                 <b>Karhutla</b> berdampak besar hanya pada kasus ekstrem, sementara akses listrik tidak signifikan. 
                 Fokus utama kebijakan sebaiknya pada <b>pengendalian emisi transportasi</b> dan <b>perlindungan ekosistem hijau</b>.
@@ -360,43 +375,33 @@ def show_tab():
     fig.update_layout(xaxis_title="Importance Score", yaxis_title="Fitur",
                       plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', margin=dict(t=20, l=80, r=20, b=5), height=400)
     st.plotly_chart(fig, use_container_width=True)
-    st.markdown("""
-    <div style="margin-top:15px; padding:10px; background-color:#6B4226; 
-                color:white; border-radius:10px; font-size:14px;">
-        🚗 <b>Jumlah Kendaraan Bermotor</b> menempati posisi paling dominan. 
-                Ini konsisten dengan tren scatter plot dan top/bottom yang menunjukkan kota padat (Jakarta & Jawa) tertekan polusi transportasi.
-    </div>
-    """, unsafe_allow_html=True)
 
     st.markdown("""
-    <div style="margin-top:10px; padding:10px; background-color:#8B5E3C; 
-                color:white; border-radius:10px; font-size:14px;">
-        🌳 <b>Indeks Kualitas Tutupan Lahan</b> juga memiliki skor penting, 
-                mengonfirmasi peran vegetasi sebagai penyangga kualitas udara di wilayah dengan ekosistem masih terjaga (Papua & Maluku).
-    </div>
+        <style>
+            .no-white-block {
+                background: linear-gradient(135deg, #8B5E3C, #A47551);
+                color: white;
+                border-radius: 12px;
+                font-size: 14px;
+                padding: 12px;
+                margin-top: 10px;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+                text-align: justify;
+            }
+        </style>
+        <div class="no-white-block">
+            🚗 <b>Jumlah Kendaraan Bermotor</b> menempati posisi paling dominan. Ini konsisten dengan tren scatter plot dan top/bottom yang menunjukkan kota padat (Jakarta & Jawa) tertekan polusi transportasi.<br>
+            🌳 <b>Indeks Kualitas Tutupan Lahan</b> juga memiliki skor penting, mengonfirmasi peran vegetasi sebagai penyangga kualitas udara di wilayah dengan ekosistem masih terjaga (Papua & Maluku).<br>
+            🔥 <b>Karhutla</b> dan <b>akses listrik PLN</b> muncul dengan pengaruh lebih kecil, tetapi tetap signifikan pada kejadian ekstrem. Ini melengkapi insight scatter plot yang menilai karhutla sebagai faktor “kejutan” bukan tren harian.<br>
+            ⚡ <b>Persentase Rumah Tangga Listrik PLN (%)</b> memberikan kontribusi relatif rendah. Sejalan dengan analisis sebelumnya, variabel ini lebih merefleksikan pembangunan infrastruktur dasar, daripada faktor langsung pencemar udara.
+        </div>
     """, unsafe_allow_html=True)
 
+    # Insight utama setelah feature importance
     st.markdown("""
-    <div style="margin-top:10px; padding:10px; background-color:#A47551; 
-                color:white; border-radius:10px; font-size:14px;">
-        🔥 <b>Karhutla</b> dan <b>akses listrik PLN</b> muncul dengan pengaruh lebih kecil, tetapi tetap signifikan pada kejadian ekstrem. 
-                Ini melengkapi insight scatter plot yang menilai karhutla sebagai faktor “kejutan” bukan tren harian.
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div style="margin-top:10px; padding:10px; background-color:#A47551; 
-                color:white; border-radius:10px; font-size:14px;">
-        ⚡ <b>Persentase Rumah Tangga Listrik PLN (%)</b> memberikan kontribusi relatif rendah. Sejalan dengan analisis sebelumnya, 
-                variabel ini lebih merefleksikan pembangunan infrastruktur dasar ketimbang faktor langsung pencemar udara.
-    </div>
-    """, unsafe_allow_html=True)
-
-         # Insight utama setelah feature importance
-    st.markdown("""
-    <div style="margin-top:20px; padding:12px; background-color:#f0f0f0; 
+    <div style="margin-top:12px; padding:12px; background-color:#f0f0f0; 
                 color:#333; border-radius:10px; font-size:14px; 
-                box-shadow: 0 0 5px rgba(0,0,0,0.05);">
+                box-shadow: 0 0 5px rgba(0,0,0,0.05); text-align: justify;">
         ✨ <b>Insight utama:</b> Feature importance menegaskan kendaraan bermotor dan tutupan lahan sebagai dua faktor paling krusial, selaras dengan temuan peta dan scatter plot. 
                 Sementara karhutla dan akses listrik tetap relevan sebagai konteks tambahan. Hal ini memperkuat dasar kebijakan: 
                 <b>prioritas pengendalian emisi transportasi + perlindungan ekosistem hijau.</b>
@@ -425,37 +430,31 @@ def show_tab():
     st.plotly_chart(fig_corr, use_container_width=True)
                 
     st.markdown("""
-    <div style="margin-top:15px; padding:10px; background-color:#6B4226; 
-                color:white; border-radius:10px; font-size:14px;">
-        🌳 <b>Indeks Kualitas Tutupan Lahan ↔ IKU (r=+0.74)</b> → validasi kuat bahwa tutupan lahan berperan positif menjaga kualitas udara.
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div style="margin-top:10px; padding:10px; background-color:#8B5E3C; 
-                color:white; border-radius:10px; font-size:14px;">
-        🚗 <b>Jumlah Kendaraan Bermotor IKU (r=-0.76)</b> → konsisten menjadi faktor tekanan terbesar terhadap kualitas udara, menguatkan hasil feature importance.
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div style="margin-top:10px; padding:10px; background-color:#A47551; 
-                color:white; border-radius:10px; font-size:14px;">
-        ⚡ <b>Rumah Tangga Listrik PLN IKU (r=-0.42)</b> → korelasi moderat, merepresentasikan dinamika konsumsi energi rumah tangga yang ikut memengaruhi kualitas udara.
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div style="margin-top:10px; padding:10px; background-color:#C19A6B; 
-                color:white; border-radius:10px; font-size:14px;">
-        🔥 <b>Luas Karhutla ↔ IKU (r=+0.10)</b> → hubungan lemah secara statistik, wajar karena kejadian karhutla bersifat insidental/episodik dalam data tahunan, tetapi tetap relevan sebagai faktor risiko.
-    </div>
+        <style>
+            .no-white-block {
+                background: linear-gradient(135deg, #8B5E3C, #A47551);
+                color: white;
+                border-radius: 12px;
+                font-size: 14px;
+                padding: 12px;
+                margin-top: 10px;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+                text-align: justify;
+            }
+        </style>
+        <div class="no-white-block">
+            🌳 <b>Indeks Kualitas Tutupan Lahan ↔ IKU (r=+0.74)</b> → validasi kuat bahwa tutupan lahan berperan positif menjaga kualitas udara.<br>
+            🚗 <b>Jumlah Kendaraan Bermotor IKU (r=-0.76)</b> → konsisten menjadi faktor tekanan terbesar terhadap kualitas udara, menguatkan hasil feature importance.<br>
+            ⚡ <b>Rumah Tangga Listrik PLN IKU (r=-0.42)</b> → korelasi moderat, merepresentasikan dinamika konsumsi energi rumah tangga yang ikut memengaruhi kualitas udara.<br>
+            🔥 <b>Luas Karhutla ↔ IKU (r=+0.10)</b> → hubungan lemah secara statistik, wajar karena kejadian karhutla bersifat insidental/episodik dalam data tahunan, tetapi tetap relevan sebagai faktor risiko.
+        </div>
     """, unsafe_allow_html=True)
 
      # Insight utama setelah heatmap
     st.markdown("""
-    <div style="margin-top:20px; padding:12px; background-color:#f0f0f0; 
+    <div style="margin-top:12px; padding:12px; background-color:#f0f0f0; 
                 color:#333; border-radius:10px; font-size:14px; 
-                box-shadow: 0 0 5px rgba(0,0,0,0.05);">
+                box-shadow: 0 0 5px rgba(0,0,0,0.05); text-align: justify;">
         ✨ <b>Insight utama:</b> Heatmap menegaskan konsistensi hubungan antar faktor. 
     <b>Kendaraan</b> dan <b>tutupan lahan</b> muncul paling kuat dan stabil, 
     sedangkan <b>listrik</b> dan <b>karhutla</b> memberi konteks tambahan yang melengkapi analisis. 
