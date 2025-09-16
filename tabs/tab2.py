@@ -142,41 +142,39 @@ def show_tab():
     )
 
     # ---------------------------------
-    # Grafik Line: Aktual vs Prediksi + Error Semua Provinsi
+    # Grafik Line: Aktual vs Prediksi Semua Provinsi
     # ---------------------------------
     st.markdown('<div class="gradient-subheader">Prediksi vs Data Aktual 2022 Semua Provinsi (Hot Test)</div>', unsafe_allow_html=True)
 
-    preds, errors = [], []
+    preds = []
     for _, row in df_hot.iterrows():
         X_input_hot = row[["IKTL_(%)", "Karhutla_(ha)", "Kendaraan_Bermotor", "Rumah_Tangga_Listrik_PLN_(%)"]]
         pred_val = weighted_hybrid_predict(X_input_hot)
         preds.append(pred_val)
-        errors.append(row["Indeks_Kualitas_Udara_(%)"] - pred_val)
 
-    # Buat subplot dengan secondary axis
-    fig = make_subplots(specs=[[{"secondary_y": True}]])
+    # Buat figure tanpa secondary axis
+    fig = go.Figure()
 
-    # Aktual & Prediksi (y-axis kiri)
+    # Aktual
     fig.add_trace(
         go.Scatter(
-            x=df_hot["Provinsi"], y=df_hot["Indeks_Kualitas_Udara_(%)"],
-            mode="lines+markers", name="Aktual", line=dict(color="#734128")
-        ), secondary_y=False
-    )
-    fig.add_trace(
-        go.Scatter(
-            x=df_hot["Provinsi"], y=preds,
-            mode="lines+markers", name="Prediksi", line=dict(color="#A47551", dash="dash")
-        ), secondary_y=False
+            x=df_hot["Provinsi"], 
+            y=df_hot["Indeks_Kualitas_Udara_(%)"],
+            mode="lines+markers", 
+            name="Aktual", 
+            line=dict(color="#734128")
+        )
     )
 
-    # Error (y-axis kanan)
+    # Prediksi
     fig.add_trace(
         go.Scatter(
-            x=df_hot["Provinsi"], y=errors,
-            mode="lines+markers", name="Error (Aktual - Prediksi)",
-            line=dict(color="red", dash="dot")
-        ), secondary_y=True
+            x=df_hot["Provinsi"], 
+            y=preds,
+            mode="lines+markers", 
+            name="Prediksi", 
+            line=dict(color="#A47551", dash="dash")
+        )
     )
 
     # Layout
@@ -189,7 +187,6 @@ def show_tab():
     )
 
     # Label sumbu
-    fig.update_yaxes(title_text="IKU (%)", secondary_y=False)
-    fig.update_yaxes(title_text="Error (%)", secondary_y=True)
+    fig.update_yaxes(title_text="IKU (%)")
 
     st.plotly_chart(fig, use_container_width=True)
