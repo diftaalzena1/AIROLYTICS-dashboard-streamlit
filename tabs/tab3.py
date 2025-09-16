@@ -461,3 +461,16 @@ def show_tab():
     Tidak ada variabel yang terabaikan; masing-masing berkontribusi sesuai karakteristik datanya.
     </div>
     """, unsafe_allow_html=True)
+
+    # ---------------------------------
+    # Call to Action / Penutup
+    # ---------------------------------
+    st.markdown("""
+    <div style="margin-top:50px; padding:15px; background-color:#6B4226; color:white; border-radius:10px; text-align:center; font-size:18px;">
+        <b>Kesimpulan:</b> Analisis menunjukkan bahwa kendaraan bermotor dan tutupan lahan adalah penentu utama kualitas udara. 
+        Karhutla muncul sebagai faktor sesekali, tetapi berdampak besar, sedangkan listrik lebih berperan sebagai indikator pembangunan. 
+        Temuan ini menggarisbawahi pentingnya investasi pada transportasi rendah emisi dan perlindungan ekosistem hijau, 
+        agar strategi pembangunan tidak hanya mendorong pertumbuhan, tetapi juga menjaga keberlanjutan lingkungan.<br><br>
+        <i>🚀 Terima kasih telah menggunakan dashboard ini — semoga menjadi pijakan untuk keputusan yang lebih visioner dan berkelanjutan!</i>
+    </div>
+    """, unsafe_allow_html=True)
