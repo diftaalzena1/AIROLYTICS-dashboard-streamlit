@@ -6,6 +6,30 @@ from modules.sidebar import show_sidebar
 from tabs import tab1, tab2, tab3
 
 # ==============================
+# Paksa Dark Mode tetap sama dengan Light
+# ==============================
+st.markdown("""
+<style>
+/* Paksa background utama sama kayak light mode */
+[data-testid="stAppViewContainer"] {
+    background-color: white !important;
+    color: black !important;
+}
+
+/* Sidebar tetap light */
+[data-testid="stSidebar"] {
+    background-color: #f0f2f6 !important;
+    color: black !important;
+}
+
+/* Header teks juga dipaksa hitam */
+h1, h2, h3, h4, h5, h6, p, span, div {
+    color: black !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# ==============================
 # Config halaman
 # ==============================
 st.set_page_config(
