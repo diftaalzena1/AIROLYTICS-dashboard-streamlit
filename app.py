@@ -6,18 +6,6 @@ from modules.sidebar import show_sidebar
 from tabs import tab1, tab2, tab3
 
 # ==============================
-# Hilangkan tombol Settings (agar selalu light mode)
-# ==============================
-st.markdown("""
-<style>
-/* Hilangkan menu ⋮ (More) di kanan atas, termasuk Settings */
-[data-testid="stToolbarActions"] {
-    display: none !important;
-}
-</style>
-""", unsafe_allow_html=True)
-
-# ==============================
 # Config halaman
 # ==============================
 st.set_page_config(
