@@ -268,7 +268,7 @@ def show_tab():
     st.markdown('<div class="gradient-subheader-tab3">Analisis Faktor terhadap Prediksi IKU (2022)</div>', unsafe_allow_html=True)
     
     # Narasi ringkas sebelum scatter
-    st.caption("Scatter plot berikut memperlihatkan hubungan tiap faktor (lahan, karhutla, kendaraan, listrik) dengan kualitas udara. Pola tren membantu mengidentifikasi faktor dominan.")
+    st.caption("Scatter plot berikut memperlihatkan hubungan tiap faktor dengan kualitas udara. Pola tren yang muncul memberi gambaran awal mengenai keterkaitan antar variabel.")
 
     features_fullname = {
         "IKTL_(%)": "Indeks Kualitas Tutupan Lahan (%)",
