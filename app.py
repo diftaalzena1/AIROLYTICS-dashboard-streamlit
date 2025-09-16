@@ -26,6 +26,37 @@ st.markdown("""
 h1, h2, h3, h4, h5, h6, p, span, div {
     color: black !important;
 }
+
+/* ==============================
+   Custom Selectbox Styling
+   ============================== */
+
+/* Kotak selectbox utama */
+.stSelectbox div[data-baseweb="select"] {
+    background-color: #000000 !important;  /* hitam */
+    color: #000000 !important;             /* teks hitam */
+}
+
+/* Label teks di dalam kotak (nama provinsi) */
+.stSelectbox div[data-baseweb="select"] span {
+    color: #000000 !important;  /* teks provinsi hitam */
+}
+
+/* Dropdown list saat dibuka */
+.stSelectbox div[role="listbox"] {
+    background-color: #000000 !important;  /* dropdown hitam */
+}
+
+/* Item pilihan dalam dropdown */
+.stSelectbox div[role="listbox"] div[role="option"] {
+    color: #FFFFFF !important;  /* teks putih */
+}
+
+/* Highlight ketika hover */
+.stSelectbox div[role="listbox"] div[role="option"]:hover {
+    background-color: #333333 !important;
+    color: #FFFFFF !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
