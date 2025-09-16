@@ -10,8 +10,9 @@ from tabs import tab1, tab2, tab3
 # ==============================
 st.markdown("""
 <style>
-[data-testid="stToolbarActions"] button[title="Settings"] {
-    display: none;
+/* Hilangkan menu ⋮ (More) di kanan atas, termasuk Settings */
+[data-testid="stToolbarActions"] {
+    display: none !important;
 }
 </style>
 """, unsafe_allow_html=True)
