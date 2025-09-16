@@ -2,7 +2,7 @@ import streamlit as st
 
 def show_sidebar():
     # ==============================
-    # CSS Sidebar
+    # CSS Sidebar Responsive
     # ==============================
     st.markdown("""
     <style>
@@ -45,6 +45,27 @@ def show_sidebar():
         padding: 0.4rem !important;
         margin: 0.3rem 0rem !important;
     }
+
+    /* ===== Responsive untuk Mobile ===== */
+    @media (max-width: 768px) {
+        .sidebar-header {
+            font-size: 16px !important;
+        }
+        .logo-box {
+            padding: 10px 5px !important;
+        }
+        [data-testid="stSidebar"] h3 {
+            font-size: 16px !important;
+        }
+        [data-testid="stSidebar"] p, 
+        [data-testid="stSidebar"] li {
+            font-size: 14px !important;
+        }
+        [data-testid="stSidebar"] [data-testid="stAlert"] {
+            font-size: 13px !important;
+            padding: 0.3rem !important;
+        }
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -72,9 +93,9 @@ def show_sidebar():
         st.markdown("### ℹ️ Fakta:")
         st.info("Menurut WHO, polusi udara menyebabkan **7 juta kematian global / tahun** ☠️")
 
-        st.markdown("### 👥 Tim")
-        st.markdown("- Friza Nur Fatmala (23083010051)")
+        st.markdown("### 👥 Tim OUR TURN:")
         st.markdown("- Difta Alzena Sakhi (23083010061)")
+        st.markdown("- Friza Nur Fatmala (23083010051)")
 
-        st.markdown("### 🏫  Instansi:")
+        st.markdown("### 🏫 Instansi:")
         st.markdown("Universitas Pembangunan Nasional Veteran Jawa Timur")
