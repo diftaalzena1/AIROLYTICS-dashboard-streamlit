@@ -1,180 +1,101 @@
 import streamlit as st 
 
-def show_tab():
-    # ---------------------------------
-    # CSS Styling (Background, Tabel, Gradient Title & Subheader)
-    # ---------------------------------
+def show_sidebar():
+    # ==============================
+    # CSS Sidebar Responsive
+    # ==============================
     st.markdown("""
     <style>
-    /* Background halaman */
-    [data-testid="stAppViewContainer"] {
-        background: linear-gradient(to right, #E2CEB1, #FDFCE8);
-        padding: 10px;
+    [data-testid="stSidebar"] {
+        color: white !important;
+        background: linear-gradient(to right, #734128, #A47551);
+        padding: 0px !important; 
     }
-
-    /* Tabel transparan */
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background-color: transparent;
+    [data-testid="stSidebar"] * {
+        color: white !important;
     }
-    th, td {
-        border: 1px solid #ccc;
-        padding: 10px;
+    .sidebar-header {
         text-align: left;
-        background-color: transparent;
-        color: black;
-    }
-    th {
+        color: #FFDDC1;
+        font-size: 20px;
         font-weight: bold;
-        text-align: center;
-        color: black;
-        background-color: rgba(115, 65, 40, 0.05); /* aksen tipis */
-    }
-
-    /* Hover row effect */
-    tbody tr:hover {
-        background-color: rgba(255,255,255,0.2);
-    }
-
-    /* Teks sumber */
-    .iku-sumber {
-        font-size: 0.85rem;
-        font-style: italic;
-        color: #333333;
-        margin-top: 5px;
-        margin-bottom: 20px;
-    }
-
-    /* Gradient Title */
-    .gradient-title {
-        font-size: 42px !important;
-        font-weight: 700;
-        background: linear-gradient(to right, #734128, #A47551);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-align: center;
-        line-height: 1.1;
-        margin-bottom: 10px;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* efek elegan */
-    }
-
-    /* Tagline */
-    .tagline {
-        font-size: 18px;
-        font-style: italic;
-        text-align: center;
-        color: #555;
-        margin-bottom: 25px;
-    }
-
-    /* Gradient Subheader */
-    .gradient-subheader {
-        font-size: 22px !important;
-        font-weight: 600;
-        background: linear-gradient(to right, #734128, #A47551);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        display: inline-block;
-        line-height: 1.1;
         margin-bottom: 10px;
     }
+    .logo-box {
+        width: 100%;
+        padding: 20px 10px;
+        text-align: center;
+    }
 
-    /* Responsive untuk mobile */
+    /* ===== Core Fix: rapatkan semua komponen ===== */
+    [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
+        gap: 0.7rem !important;
+        padding: 0rem !important;
+        margin: 0rem !important;
+    }
+    [data-testid="stSidebar"] h3 {
+        margin-top: 0.4rem !important;
+        margin-bottom: 0.3rem !important;
+    }
+    [data-testid="stSidebar"] p {
+        margin-block-start: 0.2rem !important;
+        margin-block-end: 0.2rem !important;
+    }
+    [data-testid="stSidebar"] [data-testid="stAlert"] {
+        padding: 0.4rem !important;
+        margin: 0.3rem 0rem !important;
+    }
+
+    /* ===== Responsive untuk Mobile ===== */
     @media (max-width: 768px) {
-        table, th, td {
-            font-size: 0.75rem;  /* lebih kecil agar muat layar */
-        }
-        .gradient-title {
-            font-size: 32px !important;
-        }
-        .tagline {
-            font-size: 16px;
-        }
-        .gradient-subheader {
+        .sidebar-header {
             font-size: 16px !important;
         }
-        p {
+        .logo-box {
+            padding: 10px 5px !important;
+        }
+        [data-testid="stSidebar"] h3 {
             font-size: 16px !important;
+        }
+        [data-testid="stSidebar"] p, 
+        [data-testid="stSidebar"] li {
+            font-size: 14px !important;
+        }
+        [data-testid="stSidebar"] [data-testid="stAlert"] {
+            font-size: 13px !important;
+            padding: 0.3rem !important;
         }
     }
     </style>
     """, unsafe_allow_html=True)
 
-    # ---------------------------------
-    # Judul & Deskripsi
-    # ---------------------------------
-    st.markdown("""
-    <div style="padding-top:5px; padding-bottom:15px; text-align:center;">
-        <h1 class="gradient-title">AIROLYTICS: Hybrid Model Prediksi Indeks Kualitas Udara di Indonesia</h1> 
-        <div class="tagline">"Smart Insights for Cleaner Air"</div>
-        <p style="font-size:18px; color:#333; text-align:center;">
-            <b style="color:#734128;">Prediksi kualitas udara</b> berbasis <b style="color:#734128;">machine learning hybrid.</b>  
-            Mendukung <i>keputusan berbasis data</i> untuk <b style="color:#734128;">lingkungan & kesehatan masyarakat</b>.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    # ==============================
+    # Sidebar content
+    # ==============================
+    with st.sidebar:
+        st.markdown('<div class="logo-box">', unsafe_allow_html=True)
+        st.image("assets/logo.png", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-    # ---------------------------------
-    # Tujuan Proyek
-    # ---------------------------------
-    st.markdown('<div style="padding-top:5px;"><span class="gradient-subheader">Tujuan Utama Proyek</span></div>', unsafe_allow_html=True)
-    st.markdown("""
-    - Memproyeksikan Indeks Kualitas Udara (IKU) tiap provinsi berdasarkan data historis.  
-    - Mengidentifikasi faktor utama penurunan kualitas udara untuk perumusan kebijakan.  
-    - Menyediakan informasi pendukung bagi pemerintah & masyarakat dalam meningkatkan kesadaran lingkungan.
-    """)
+        st.markdown("### 🎯 Fokus SDGs:")
+        cols = st.columns(3)
+        with cols[0]: st.image("assets/SDG_3.png", use_container_width=True)
+        with cols[1]: st.image("assets/SDG_11.png", use_container_width=True)
+        with cols[2]: st.image("assets/SDG_13.png", use_container_width=True)
 
-    # ---------------------------------
-    # Klasifikasi IKU (HTML Table)
-    # ---------------------------------
-    st.markdown('<div style="padding-top:5px;"><span class="gradient-subheader">Klasifikasi Indeks Kualitas Udara (IKU)</span></div>', unsafe_allow_html=True)
-    st.markdown("""
-    <table>
-        <thead>
-            <tr>
-                <th>Kategori</th>
-                <th>Rentang IKU (%)</th>
-                <th>Keterangan</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>🟢 Sangat Baik</td>
-                <td>90 – 100</td>
-                <td>Udara sangat bersih, aman untuk semua orang</td>
-            </tr>
-            <tr>
-                <td>🙂 Baik</td>
-                <td>70 – 89.99</td>
-                <td>Sehat, aman untuk sebagian besar populasi</td>
-            </tr>
-            <tr>
-                <td>😐 Sedang</td>
-                <td>50 – 69.99</td>
-                <td>Kualitas mulai menurun, kelompok sensitif perlu waspada</td>
-            </tr>
-            <tr>
-                <td>⚠️ Kurang</td>
-                <td>25 – 49.99</td>
-                <td>Risiko kesehatan meningkat, perlu pengendalian polusi</td>
-            </tr>
-            <tr>
-                <td>❌ Sangat Kurang</td>
-                <td>0 – 24.99</td>
-                <td>Kualitas buruk sekali, berisiko tinggi bagi semua orang</td>
-            </tr>
-        </tbody>
-    </table>
-    """, unsafe_allow_html=True)
+        st.markdown("### 📌 Sumber Data:")
+        st.markdown("""
+- **BPS** – Data Statistik Resmi  
+- **BPS** – Publikasi Lingkungan Hidup Indonesia  
+- **KLHK** – Direktorat Pengendalian Karhutla
+""")
 
-    st.markdown('<div class="iku-sumber">Sumber: Portal Satu Data Indonesia</div>', unsafe_allow_html=True)
+        st.markdown("### ℹ️ Fakta:")
+        st.info("Menurut WHO, polusi udara menyebabkan **7 juta kematian global / tahun** ☠️")
 
-    # ---------------------------------
-    # Call to Action / Penutup
-    # ---------------------------------
-    st.markdown("""
-    <div style="margin-top:15px; padding:15px; background-color:#6B4226; color:white; border-radius:10px; text-align:center; font-size:18px;">
-        🌍 Mari gunakan data untuk membangun lingkungan yang lebih sehat. Setelah itu, jelajahi tab berikutnya untuk melihat analisis prediktif dan visualisasi interaktif. Dengan cara ini, kita dapat lebih memahami kondisi udara sehingga bersama-sama kita bisa mewujudkan udara yang lebih bersih dan berkelanjutan. 💡
-    </div>
-    """, unsafe_allow_html=True)
+        st.markdown("### 👥 Tim OUR TURN:")
+        st.markdown("- Difta Alzena Sakhi (23083010061)")
+        st.markdown("- Friza Nur Fatmala (23083010051)")
+
+        st.markdown("### 🏫 Instansi:")
+        st.markdown("Universitas Pembangunan Nasional Veteran Jawa Timur")
