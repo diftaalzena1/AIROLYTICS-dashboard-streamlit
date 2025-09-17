@@ -106,7 +106,7 @@ def show_tab():
     # ---------------------------------
     st.markdown("""
     <div style="padding-top:5px; padding-bottom:15px; text-align:center;">
-        <h1 class="gradient-title">AIROLYTICS: Hybrid Model Prediksi Indeks Kualitas Udara di Indonesia</h1> 
+        <h1 class="gradient-title">AIROLYTICS: Dashboard Hybrid Model Prediksi Indeks Kualitas Udara di Indonesia</h1> 
         <div class="tagline">"Smart Insights for Cleaner Air"</div>
         <p style="font-size:18px; color:#333; text-align:center;">
             <b style="color:#734128;">Prediksi kualitas udara</b> berbasis <b style="color:#734128;">machine learning hybrid.</b>  
