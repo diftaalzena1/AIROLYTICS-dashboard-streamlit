@@ -62,8 +62,8 @@ def show_tab():
     # ---------------------------------
     # Evaluasi Metrics
     # ---------------------------------
-    st.markdown('<div class="gradient-subheader-tab3">Evaluasi Metrics Hasil Training</div>', unsafe_allow_html=True)
-    st.caption("Nilai diambil langsung dari hasil evaluasi training agar konsisten.")
+    st.markdown('<div class="gradient-subheader-tab3">Evaluasi Metrics (2022)</div>', unsafe_allow_html=True)
+    st.caption("Nilai diambil langsung dari hasil evaluasi agar konsisten.")
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("R² Train", f"{train_metrics.get('r2_train', 0):.4f}")
     col2.metric("R² Test", f"{train_metrics.get('r2_test', 0):.4f}")
