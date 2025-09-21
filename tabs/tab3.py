@@ -20,15 +20,12 @@ def show_tab():
     # ---------------------------------
     st.markdown("""
     <style>
-    /* Metrics abu-abu muda */
     div[data-testid="stMetric"] {
         background-color: #f0f0f0;
         padding: 10px;
         border-radius: 10px;
         box-shadow: 0 0 5px rgba(0,0,0,0.05);
     }
-
-    /* Subheader gradasi coklat */
     .gradient-subheader-tab3 {
         font-size: 22px !important;
         font-weight: 600;
@@ -45,11 +42,7 @@ def show_tab():
     # ---------------------------------
     # Load Model & Metrics
     # ---------------------------------
-    saved = joblib.load("data/model_hybrid.pkl")
-    rf_model = saved["rf_model"]
-    lr_model = saved["lr_model"]
-    X_min = saved["X_min"]
-    X_max = saved["X_max"]
+    rf_model = joblib.load("data/rf_augmentasi.pkl")
 
     metrics_file = "data/eval_metrics.json"
     if not os.path.exists(metrics_file):
@@ -65,19 +58,6 @@ def show_tab():
     for col in features:
         df_hot[col] = pd.to_numeric(df_hot[col], errors='coerce').fillna(0)
         df_latih[col] = pd.to_numeric(df_latih[col], errors='coerce').fillna(0)
-
-    # Weighted Hybrid Predict Function
-    def weighted_hybrid_predict_tab(row, threshold_minor=0.1, threshold_major=0.3):
-        diff_lower = (X_min - row).clip(lower=0)
-        diff_upper = (row - X_max).clip(lower=0)
-        extremity = (diff_lower + diff_upper).sum() / (X_max - X_min).sum()
-        row_df = row.to_frame().T
-        if extremity < threshold_minor:
-            return rf_model.predict(row_df)[0]
-        elif extremity < threshold_major:
-            return 0.7 * rf_model.predict(row_df)[0] + 0.3 * lr_model.predict(row_df)[0]
-        else:
-            return lr_model.predict(row_df)[0]
 
     # ---------------------------------
     # Evaluasi Metrics
@@ -97,22 +77,19 @@ def show_tab():
     col3.metric("MAE Hot", f"{hot_metrics.get('mae_hot', 0):.2f}")
     col4.metric("MAPE Hot", f"{hot_metrics.get('mape_hot', 0):.2f}%")
 
-    # Prediksi Hot Test
-    df_hot["Prediksi_IKU"] = df_hot[features].apply(weighted_hybrid_predict_tab, axis=1)
+    # ---------------------------------
+    # Prediksi Hot Test dengan RF langsung
+    # ---------------------------------
+    df_hot["Prediksi_IKU"] = df_hot[features].apply(lambda row: rf_model.predict(row.to_frame().T)[0], axis=1)
     df_hot["Kategori"] = df_hot["Prediksi_IKU"].apply(iku_category)
 
     # ---------------------------------
     # Peta Choropleth
     # ---------------------------------
     st.markdown('<div class="gradient-subheader-tab3">Peta Choropleth Prediksi Indeks Kualitas Udara (2022)</div>', unsafe_allow_html=True)
-
-    # Narasi ringkas sebelum peta
     st.caption("Peta ini menampilkan sebaran prediksi kualitas udara per provinsi. Semakin gelap warnanya, semakin baik nilai IKU yang diprediksi. " \
     "Peta juga dapat digeser, di-zoom, dan kursor bisa diarahkan ke provinsi tertentu untuk melihat nilai detail.")
-
-    # Tambahkan jarak pakai <br>
-    # st.markdown("<br>", unsafe_allow_html=True)
-
+    
     m = folium.Map(location=[-2.5, 118], zoom_start=5)
     geojson_prov_list = [f['properties']['Propinsi'].strip().upper() for f in geojson_prov['features']]
 
@@ -187,9 +164,7 @@ def show_tab():
     # Top/Bottom 5 Provinsi
     # ---------------------------------
     st.markdown('<div class="gradient-subheader-tab3">Top 5 & Bottom 5 Provinsi Berdasarkan Prediksi IKU (2022)</div>', unsafe_allow_html=True)
-    
-    # Narasi ringkas sebelum grafik top/bottom
-    st.caption("Grafik berikut memperlihatkan 5 provinsi teratas dan terbawah dalam prediksi kualitas udara. Perbandingan ini membantu melihat gap wilayah timur vs barat Indonesia.")
+    st.caption("Grafik berikut memperlihatkan 5 provinsi teratas dan terbawah dalam prediksi kualitas udara.")
 
     df_sorted = df_hot.sort_values(by="Prediksi_IKU", ascending=False)
     top5 = df_sorted.head(5)
@@ -266,60 +241,47 @@ def show_tab():
     # Analisis Faktor vs IKU (Scatter)
     # ---------------------------------
     st.markdown('<div class="gradient-subheader-tab3">Analisis Faktor terhadap Prediksi IKU (2022)</div>', unsafe_allow_html=True)
-    
-    # Narasi ringkas sebelum scatter
-    st.caption("Scatter plot berikut memperlihatkan hubungan tiap faktor (lahan, karhutla, kendaraan, listrik) dengan kualitas udara. Pola tren membantu mengidentifikasi faktor dominan.")
+    st.caption("Scatter plot berikut memperlihatkan hubungan tiap faktor dengan kualitas udara. Pola tren yang muncul memberi gambaran awal mengenai keterkaitan antar variabel.")
 
     features_fullname = {
         "IKTL_(%)": "Indeks Kualitas Tutupan Lahan (%)",
         "Karhutla_(ha)": "Luas Kebakaran Hutan dan Lahan (ha)",
         "Kendaraan_Bermotor": "Jumlah Kendaraan Bermotor (unit)",
-        "Rumah_Tangga_Listrik_PLN_(%)": "Persentase Rumah Tangga Listrik PLN (%)"
+        "Rumah_Tangga_Listrik_PLN_(%)": "Persentase Rumah Tangga Listrik PLN (%)",
+        "Prediksi_IKU": "Prediksi IKU (%)"
     }
 
-    faktor_list = list(features_fullname.keys())
+    # Filter faktor agar tidak termasuk Prediksi_IKU
+    faktor_list = [f for f in features_fullname.keys() if f != "Prediksi_IKU"]
+
     for i in range(0, len(faktor_list), 2):
         col1, col2 = st.columns(2)
         with col1:
             faktor = faktor_list[i]
-            st.markdown(f"**{features_fullname[faktor]} vs IKU Prediksi**")
+            st.markdown(f"**{features_fullname[faktor]} vs {features_fullname['Prediksi_IKU']}**")
             fig1 = px.scatter(
-                df_hot, 
-                x=faktor, 
+                df_hot,
+                x=faktor,
                 y="Prediksi_IKU",
                 hover_name="Provinsi",
-                labels={faktor: features_fullname[faktor], "Prediksi_IKU": "IKU Prediksi"},
-                size_max=15
+                labels={faktor: features_fullname[faktor], "Prediksi_IKU": features_fullname["Prediksi_IKU"]}
             )
-            fig1.update_traces(
-                marker=dict(
-                    color="#A67845",  
-                    size=14,
-                    line=dict(width=0.5, color='black')
-                )
-            )
+            fig1.update_traces(marker=dict(color="#A67845", size=14, line=dict(width=0.5, color='black')))
             fig1.update_layout(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", height=400)
             st.plotly_chart(fig1, use_container_width=True)
 
         if i + 1 < len(faktor_list):
             faktor2 = faktor_list[i+1]
             with col2:
-                st.markdown(f"**{features_fullname[faktor2]} vs IKU Prediksi**")
+                st.markdown(f"**{features_fullname[faktor2]} vs {features_fullname['Prediksi_IKU']}**")
                 fig2 = px.scatter(
-                    df_hot, 
-                    x=faktor2, 
+                    df_hot,
+                    x=faktor2,
                     y="Prediksi_IKU",
                     hover_name="Provinsi",
-                    labels={faktor2: features_fullname[faktor2], "Prediksi_IKU": "IKU Prediksi"},
-                    size_max=15
+                    labels={faktor2: features_fullname[faktor2], "Prediksi_IKU": features_fullname["Prediksi_IKU"]}
                 )
-                fig2.update_traces(
-                    marker=dict(
-                        color="#A67845",  # <- 1 warna
-                        size=14,
-                        line=dict(width=0.5, color='black')
-                    )
-                )
+                fig2.update_traces(marker=dict(color="#A67845", size=14, line=dict(width=0.5, color='black')))
                 fig2.update_layout(plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", height=400)
                 st.plotly_chart(fig2, use_container_width=True)
 
@@ -360,20 +322,29 @@ def show_tab():
     # Feature Importance
     # ---------------------------------
     st.markdown('<div class="gradient-subheader-tab3">Feature Importance dengan Random Forest (2022)</div>', unsafe_allow_html=True)
-    
-    # Narasi ringkas sebelum feature importance
     st.caption("Grafik feature importance menunjukkan kontribusi relatif tiap faktor. Semakin besar skor, semakin kuat pengaruhnya terhadap prediksi IKU.")
 
+    # Ambil hanya fitur yang dipakai di RF (exclude 'Prediksi_IKU')
+    features_for_rf = {k:v for k,v in features_fullname.items() if k != "Prediksi_IKU"}
+
     importances = rf_model.feature_importances_
-    feat_imp = pd.Series(importances, index=list(features_fullname.values())).sort_values(ascending=True)
+    feat_imp = pd.Series(importances, index=list(features_for_rf.values())).sort_values(ascending=True)
+
+    # Plot horizontal bar chart
     fig = go.Figure(go.Bar(
         x=feat_imp.values,
         y=feat_imp.index,
         orientation='h',
         marker=dict(color=feat_imp.values, colorscale=[[0, '#E2CEB1'], [1, "#804000"]], showscale=False)
     ))
-    fig.update_layout(xaxis_title="Importance Score", yaxis_title="Fitur",
-                      plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', margin=dict(t=20, l=80, r=20, b=5), height=400)
+    fig.update_layout(
+        xaxis_title="Importance Score",
+        yaxis_title="Fitur",
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        margin=dict(t=20, l=80, r=20, b=5),
+        height=400
+    )
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("""
@@ -414,21 +385,19 @@ def show_tab():
     # Heatmap Korelasi Fitur
     # ---------------------------------
     st.markdown('<div class="gradient-subheader-tab3">Heatmap Korelasi Fitur (2022)</div>', unsafe_allow_html=True)
-    
-    # Narasi ringkas sebelum heatmap
     st.caption("Heatmap korelasi digunakan sebagai validasi statistik: apakah hubungan antar variabel sejalan dengan tren scatter plot dan feature importance.")
 
     features_fullname["Prediksi_IKU"] = "Prediksi Indeks Kualitas Udara"
-    corr = df_hot[list(features_fullname.keys())].corr().round(2)   # dibulatkan 2 desimal
+    corr = df_hot[list(features_fullname.keys())].corr().round(2)
     colorscale = [[0.0, "#804000"], [0.5, "#f0f0f0"], [1.0, "#E2CEB1"]]
     fig_corr = px.imshow(corr, text_auto=True, aspect="auto", color_continuous_scale=colorscale)
     col_names = list(features_fullname.keys())
     display_names = [features_fullname[c] for c in col_names]
     fig_corr.update_xaxes(ticktext=display_names, tickvals=list(range(len(display_names))))
     fig_corr.update_yaxes(ticktext=display_names, tickvals=list(range(len(display_names))))
-    fig_corr.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', margin=dict(t=25, l=80, r=20, b=5), height=500) # atur tinggi grafik)
+    fig_corr.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', margin=dict(t=25, l=80, r=20, b=5), height=500)
     st.plotly_chart(fig_corr, use_container_width=True)
-                
+
     st.markdown("""
         <style>
             .no-white-block {
@@ -459,5 +428,18 @@ def show_tab():
     <b>Kendaraan</b> dan <b>tutupan lahan</b> muncul paling kuat dan stabil, 
     sedangkan <b>listrik</b> dan <b>karhutla</b> memberi konteks tambahan yang melengkapi analisis. 
     Tidak ada variabel yang terabaikan; masing-masing berkontribusi sesuai karakteristik datanya.
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ---------------------------------
+    # Call to Action / Penutup
+    # ---------------------------------
+    st.markdown("""
+    <div style="margin-top:50px; padding:15px; background-color:#6B4226; color:white; border-radius:10px; text-align:center; font-size:18px;">
+        <b>Kesimpulan:</b> Analisis menunjukkan bahwa kendaraan bermotor dan tutupan lahan adalah penentu utama kualitas udara. 
+        Karhutla muncul sebagai faktor sesekali, tetapi berdampak besar, sedangkan listrik lebih berperan sebagai indikator pembangunan. 
+        Temuan ini menggarisbawahi pentingnya investasi pada transportasi rendah emisi dan perlindungan ekosistem hijau, 
+        agar strategi pembangunan tidak hanya mendorong pertumbuhan, tetapi juga menjaga keberlanjutan lingkungan.<br><br>
+        <i>🚀 Terima kasih telah menggunakan dashboard ini — semoga menjadi pijakan untuk keputusan yang lebih visioner dan berkelanjutan!</i>
     </div>
     """, unsafe_allow_html=True)

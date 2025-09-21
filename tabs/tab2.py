@@ -1,8 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-from utils.helpers import weighted_hybrid_predict, iku_category
+from utils.helpers import rf_predict, iku_category  
 
 def show_tab():
     # ---------------------------------
@@ -88,7 +87,7 @@ def show_tab():
             "Kendaraan_Bermotor": Kendaraan,
             "Rumah_Tangga_Listrik_PLN_(%)": Listrik
         })
-        pred = weighted_hybrid_predict(X_input)
+        pred = rf_predict(X_input)  # pakai RF augmentasi langsung
         kategori = iku_category(pred)
 
         color_map_demo = {
@@ -126,7 +125,7 @@ def show_tab():
     provinsi_hot = st.selectbox("Pilih Provinsi (2022)", df_hot["Provinsi"])
     df_row = df_hot[df_hot["Provinsi"] == provinsi_hot].iloc[0]
     X_input_hot = df_row[["IKTL_(%)", "Karhutla_(ha)", "Kendaraan_Bermotor", "Rumah_Tangga_Listrik_PLN_(%)"]]
-    pred_hot = weighted_hybrid_predict(X_input_hot)
+    pred_hot = rf_predict(X_input_hot)
     kategori_hot = iku_category(pred_hot)
     aktual_hot = df_row["Indeks_Kualitas_Udara_(%)"]
     error_hot = abs(pred_hot - aktual_hot)
@@ -144,12 +143,15 @@ def show_tab():
     # ---------------------------------
     # Grafik Line: Aktual vs Prediksi Semua Provinsi
     # ---------------------------------
-    st.markdown('<div class="gradient-subheader">Prediksi vs Data Aktual 2022 Semua Provinsi (Hot Test)</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="gradient-subheader">Prediksi vs Data Aktual 2022 Semua Provinsi (Hot Test)</div>',
+        unsafe_allow_html=True
+    )
 
     preds = []
     for _, row in df_hot.iterrows():
         X_input_hot = row[["IKTL_(%)", "Karhutla_(ha)", "Kendaraan_Bermotor", "Rumah_Tangga_Listrik_PLN_(%)"]]
-        pred_val = weighted_hybrid_predict(X_input_hot)
+        pred_val = rf_predict(X_input_hot)
         preds.append(pred_val)
 
     # Buat figure tanpa secondary axis
@@ -158,10 +160,10 @@ def show_tab():
     # Aktual
     fig.add_trace(
         go.Scatter(
-            x=df_hot["Provinsi"], 
+            x=df_hot["Provinsi"],
             y=df_hot["Indeks_Kualitas_Udara_(%)"],
-            mode="lines+markers", 
-            name="Aktual", 
+            mode="lines+markers",
+            name="Aktual",
             line=dict(color="#734128")
         )
     )
@@ -169,24 +171,32 @@ def show_tab():
     # Prediksi
     fig.add_trace(
         go.Scatter(
-            x=df_hot["Provinsi"], 
+            x=df_hot["Provinsi"],
             y=preds,
-            mode="lines+markers", 
-            name="Prediksi", 
+            mode="lines+markers",
+            name="Prediksi",
             line=dict(color="#A47551", dash="dash")
         )
     )
 
     # Layout
     fig.update_layout(
+        width=1600,
+        height=600,
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
         xaxis=dict(showgrid=False, tickangle=45),
-        legend=dict(orientation="h", yanchor="top", y=-0.7, xanchor="center", x=0.5),
+        legend=dict(
+            orientation="h",
+            yanchor="top",
+            y=-0.5,
+            xanchor="center",
+            x=0.5
+        ),
         margin=dict(l=20, r=20, t=40, b=80)
     )
 
     # Label sumbu
     fig.update_yaxes(title_text="IKU (%)")
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=False)
