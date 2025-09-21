@@ -9,7 +9,7 @@ from tabs import tab1, tab2, tab3
 # Config halaman
 # ==============================
 st.set_page_config(
-    page_title="AIROLYTICS: Hybrid Machine Learning untuk Prediksi & Analisis Kualitas Udara Indonesia",
+    page_title="AIROLYTICS: Model Random Forest dengan Augmentasi Data untuk Prediksi & Analisis Kualitas Udara Indonesia",
     layout="wide"
 )
 
