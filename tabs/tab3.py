@@ -62,7 +62,7 @@ def show_tab():
     # ---------------------------------
     # Evaluasi Metrics
     # ---------------------------------
-    st.markdown('<div class="gradient-subheader-tab3">Evaluasi Metrics (2022)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="gradient-subheader-tab3">Evaluasi Metrics</div>', unsafe_allow_html=True)
     st.caption("Nilai diambil langsung dari hasil evaluasi agar konsisten.")
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("R² Train", f"{train_metrics.get('r2_train', 0):.4f}")
@@ -70,7 +70,7 @@ def show_tab():
     col3.metric("RMSE Test", f"{train_metrics.get('rmse_test', 0):.2f}")
     col4.metric("MAPE Test", f"{train_metrics.get('mape_test', 0):.2f}%")
 
-    st.markdown('<div class="gradient-subheader-tab3">Evaluasi Metrics Hot Test</div>', unsafe_allow_html=True)
+    st.markdown('<div class="gradient-subheader-tab3">Evaluasi Metrics Hot Test (2022)</div>', unsafe_allow_html=True)
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("R² Hot", f"{hot_metrics.get('r2_hot', 0):.4f}")
     col2.metric("RMSE Hot", f"{hot_metrics.get('rmse_hot', 0):.2f}")
