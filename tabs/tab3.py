@@ -412,10 +412,10 @@ def show_tab():
             }
         </style>
         <div class="no-white-block">
-            🌳 <b>Indeks Kualitas Tutupan Lahan ↔ IKU (r=+0.74)</b> → validasi kuat bahwa tutupan lahan berperan positif menjaga kualitas udara.<br>
-            🚗 <b>Jumlah Kendaraan Bermotor IKU (r=-0.76)</b> → konsisten menjadi faktor tekanan terbesar terhadap kualitas udara, menguatkan hasil feature importance.<br>
-            ⚡ <b>Rumah Tangga Listrik PLN IKU (r=-0.42)</b> → korelasi moderat, merepresentasikan dinamika konsumsi energi rumah tangga yang ikut memengaruhi kualitas udara.<br>
-            🔥 <b>Luas Karhutla ↔ IKU (r=+0.10)</b> → hubungan lemah secara statistik, wajar karena kejadian karhutla bersifat insidental/episodik dalam data tahunan, tetapi tetap relevan sebagai faktor risiko.
+            🌳 <b>Indeks Kualitas Tutupan Lahan ↔ IKU (r= +0.74)</b> → validasi kuat bahwa tutupan lahan berperan positif menjaga kualitas udara.<br>
+            🚗 <b>Jumlah Kendaraan Bermotor ↔ IKU (r= -0.76)</b> → konsisten menjadi faktor tekanan terbesar terhadap kualitas udara, menguatkan hasil feature importance.<br>
+            ⚡ <b>Rumah Tangga Listrik PLN ↔ IKU (r= -0.42)</b> → korelasi moderat, merepresentasikan dinamika konsumsi energi rumah tangga yang ikut memengaruhi kualitas udara.<br>
+            🔥 <b>Luas Karhutla ↔ IKU (r= +0.10)</b> → hubungan lemah secara statistik, wajar karena kejadian karhutla bersifat insidental/episodik dalam data tahunan, tetapi tetap relevan sebagai faktor risiko.
         </div>
     """, unsafe_allow_html=True)
 
